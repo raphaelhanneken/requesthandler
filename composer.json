@@ -4,6 +4,8 @@
     "license": "MIT",
 
     "require": {
+        "php": "^7.2",
+        "ext-json": "*",
         "psr/http-server-middleware": "^1.0"
     },
 

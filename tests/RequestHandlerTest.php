@@ -59,6 +59,30 @@ class RequestHandlerTest extends TestCase
         $this->assertEquals('Hello World', (string) $response->getBody());
     }
 
+    public function testHandleRequestWithAttribute()
+    {
+        $this->container
+            ->expects($this->once())
+            ->method('has')
+            ->with(UserController::class)
+            ->willReturn(true);
+
+        $this->container
+            ->expects($this->once())
+            ->method('get')
+            ->with(UserController::class)
+            ->willReturn(new UserController());
+
+        $this->request = $this->request
+            ->withAttribute('Request-Handler', UserController::class . ':show')
+            ->withAttribute('Request-Params', ['id' => 4]);
+
+        $response = (new RequestHandler($this->container))->handle($this->request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(json_encode(['id' => 4]), (string) $response->getBody());
+    }
+
     /**
      * @covers \Middleware\RequestHandler::handle
      */

@@ -47,6 +47,10 @@ class RequestHandler implements RequestHandlerInterface
             );
         }
 
-        return $controller->{$method}();
+        if (empty($request->getAttribute('Request-Params', []))) {
+            return $controller->{$method}();
+        }
+
+        return $controller->{$method}($request->getAttribute('Request-Params'));
     }
 }
