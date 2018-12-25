@@ -7,9 +7,10 @@ use Middleware\Exception\RequestHandlerNotFoundException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as RequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class RequestHandler implements RequestHandlerInterface
+class RequestHandler implements RequestHandlerInterface, MiddlewareInterface
 {
     /** @var ContainerInterface */
     private $container;
@@ -30,7 +31,7 @@ class RequestHandler implements RequestHandlerInterface
     }
 
     /**
-     * Handle the request and return a response.
+     * @inheritdoc
      */
     public function handle(RequestInterface $request): ResponseInterface
     {
@@ -52,5 +53,13 @@ class RequestHandler implements RequestHandlerInterface
         }
 
         return $controller->{$method}($request->getAttribute('Request-Params'));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function process(RequestInterface $request, RequestHandlerInterface $next)
+    {
+        return $this->handle($request);
     }
 }
