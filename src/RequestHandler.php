@@ -58,7 +58,7 @@ class RequestHandler implements RequestHandlerInterface, MiddlewareInterface
     /**
      * @inheritdoc
      */
-    public function process(RequestInterface $request, RequestHandlerInterface $next)
+    public function process(RequestInterface $request, RequestHandlerInterface $next): ResponseInterface
     {
         return $this->handle($request);
     }
