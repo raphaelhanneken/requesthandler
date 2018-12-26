@@ -22,7 +22,7 @@ class RequestHandler implements RequestHandlerInterface, MiddlewareInterface
      * Create a new RequestHandler instance
      *
      * @param ContainerInterface $container
-     * @param string             $requestHandlerAttributeName
+     * @param string $requestHandlerAttributeName
      */
     public function __construct(ContainerInterface $container, string $requestHandlerAttributeName = 'Request-Handler')
     {
@@ -48,11 +48,7 @@ class RequestHandler implements RequestHandlerInterface, MiddlewareInterface
             );
         }
 
-        if (empty($request->getAttribute('Request-Params', []))) {
-            return $controller->{$method}();
-        }
-
-        return $controller->{$method}($request->getAttribute('Request-Params'));
+        return $controller->{$method}($request);
     }
 
     /**
